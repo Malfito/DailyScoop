@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "703068283141",
+    "project_id": "dailyscoop-a1b5f",
+    "storage_bucket": "dailyscoop-a1b5f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703068283141:android:d22e4c11b11783ce20976c",
+        "android_client_info": {
+          "package_name": "com.example.dailyscoop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703068283141-dfgcf6q7hvo65pk1fb1ah21i2g365mea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUd29GqiS02EPZ-CjArJSgWVz13Wx1J9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703068283141-dfgcf6q7hvo65pk1fb1ah21i2g365mea.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "703068283141-k7vntoaleummafj73f6ev5rj4o6mag7l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dailyscoop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
