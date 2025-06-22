@@ -1,6 +1,6 @@
 {
-    "name": "dailyscoop",
-    "short_name": "dailyscoop",
+    "name": "daily_scoop_phase_2",
+    "short_name": "daily_scoop_phase_2",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

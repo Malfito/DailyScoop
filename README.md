@@ -1,4 +1,4 @@
-# dailyscoop
+# daily_scoop_phase_2
 
 A new Flutter project.
 
