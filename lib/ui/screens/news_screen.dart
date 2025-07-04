@@ -4,9 +4,19 @@ import '../../Provider/News_provider.dart';
 import '../widgets/news_swipe_stack.dart';
 import '../widgets/news_category_tabs.dart';
 import '../widgets/bottom_nav_bar.dart';
+import '../../models/NewsArticleModel.dart';
 
 class NewsScreen extends StatefulWidget {
-  const NewsScreen({super.key});
+  final int initialIndex;
+  final List<NewsArticle>? fullNewsList;
+  final int? newsId;
+
+  const NewsScreen({
+    super.key,
+    this.initialIndex = 0,
+    this.fullNewsList,
+    this.newsId,
+  });
 
   @override
   State<NewsScreen> createState() => _NewsScreenState();
@@ -16,26 +26,70 @@ class _NewsScreenState extends State<NewsScreen> {
   int selectedCategoryIndex = 0;
   bool hideTabs = false;
   int selectedTab = 0;
+  int effectiveInitialIndex = 0;
 
-  final List<String> categories = ["All News", "at Chitradurga", "Business", "Sports"];
+  final List<String> categories = [
+    "All News",
+    "at Chitradurga",
+    "Business",
+    "Sports"
+  ];
+
+  late PageController _pageController;
+  List<Map<String, dynamic>> parsedNews = [];
 
   @override
   void initState() {
     super.initState();
+
+    _pageController = PageController();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<NewsProvider>(context, listen: false)
-          .fetchNews(1, categories[selectedCategoryIndex]);
+      final provider = Provider.of<NewsProvider>(context, listen: false);
+
+      provider.fetchNews(3, categories[selectedCategoryIndex]).then((_) {
+        final articles = provider.articles;
+        parsedNews = articles
+            .map((article) => {
+          "id": article.id,
+          "imageUrl": article.imageUrl,
+          "headline": article.title,
+          "description": article.description,
+          "category": article.category,
+          "timeAgo": "Just now",
+          "likes": 0,
+          "shares": 0,
+        })
+            .toList();
+
+        if (widget.newsId != null) {
+          final index = articles.indexWhere((e) => e.id == widget.newsId);
+          if (index != -1) {
+            setState(() => effectiveInitialIndex = index);
+          }
+        } else {
+          setState(() => effectiveInitialIndex = widget.initialIndex);
+        }
+      });
     });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   void onTabChanged(int index) {
     setState(() {
       selectedCategoryIndex = index;
+      effectiveInitialIndex = 0; // ✅ reset index for new tab
     });
 
     Provider.of<NewsProvider>(context, listen: false)
-        .fetchNews(1, categories[index]);
+        .fetchNews(3, categories[index]);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +100,8 @@ class _NewsScreenState extends State<NewsScreen> {
           : AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
-        title: const Text('Top News', style: TextStyle(color: Colors.black)),
+        title:
+        const Text('Top News', style: TextStyle(color: Colors.black)),
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
@@ -70,8 +125,9 @@ class _NewsScreenState extends State<NewsScreen> {
                   return const Center(child: Text("No news found"));
                 }
 
-                final parsedNews = provider.articles
+                parsedNews = provider.articles
                     .map((article) => {
+                  "id": article.id,
                   "imageUrl": article.imageUrl,
                   "headline": article.title,
                   "description": article.description,
@@ -81,9 +137,10 @@ class _NewsScreenState extends State<NewsScreen> {
                   "shares": 0,
                 })
                     .toList();
-
+                final safeIndex = effectiveInitialIndex.clamp(0, parsedNews.length - 1);
                 return NewsSwipeStack(
                   newsList: parsedNews,
+                  initialIndex: safeIndex,
                   onSwipeStarted: (bool hide) {
                     setState(() => hideTabs = hide);
                   },
@@ -93,12 +150,12 @@ class _NewsScreenState extends State<NewsScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: selectedTab,
-        onItemTapped: (int index) {
-          setState(() => selectedTab = index);
-        },
-      ),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: selectedTab,
+      //   onItemTapped: (int index) {
+      //     setState(() => selectedTab = index);
+      //   },
+      // ),
     );
   }
 }

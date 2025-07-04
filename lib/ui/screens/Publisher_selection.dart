@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Provider/Onboarding_provider.dart';
 import '../../models/OnboardingRequestModel.dart';
+import '../../routes.dart';
 import '../../services/OnboardingService.dart';
 import '../widgets/PublisherButton.dart';
 
@@ -117,6 +118,7 @@ class PublisherSelectionScreen extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(content: Text("🎉 Onboarding submitted successfully!")),
     );
+    Navigator.pushReplacementNamed(context, AppRoutes.Mainscreen);
     } else {
     ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(content: Text("❌ Failed to submit. Please try again.")),

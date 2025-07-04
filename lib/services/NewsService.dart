@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/NewsArticleModel.dart';
+import '../strings/Strings.dart';
 
 class NewsService {
   static Future<List<NewsArticle>> fetchNews(int userId, String tab) async {
-    final url = Uri.parse("http://localhost:9090/api/news/user/$userId?tab=$tab");
+    final url = Uri.parse("${AppUrls.baseUrl}/api/news/user/$userId?tab=$tab");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -17,7 +18,7 @@ class NewsService {
 
   // ✅ NEW: fetch by state only (used in HomeScreen for "Karnataka" / "International")
   static Future<List<NewsArticle>> fetchNewsByState(String state) async {
-    final url = Uri.parse("http://localhost:9090/api/news/user/1?tab=All News&state=$state");
+    final url = Uri.parse("${AppUrls.baseUrl}/api/news/user/1?tab=All News&state=$state");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

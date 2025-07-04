@@ -4,11 +4,14 @@ import 'news_card.dart';
 class NewsSwipeStack extends StatefulWidget {
   final List<Map<String, dynamic>> newsList;
   final Function(bool) onSwipeStarted;
+  final int initialIndex;
+
 
   const NewsSwipeStack({
     super.key,
     required this.newsList,
     required this.onSwipeStarted,
+    this.initialIndex = 0,
   });
   @override
   State<NewsSwipeStack> createState() => _NewsSwipeStackState();
@@ -24,6 +27,7 @@ class _NewsSwipeStackState extends State<NewsSwipeStack> with TickerProviderStat
   @override
   void initState() {
     super.initState();
+    currentIndex = widget.initialIndex;
     _snapController = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
   }
 

@@ -1,4 +1,5 @@
 import 'package:daily_scoop_phase_2/Provider/News_provider.dart';
+import 'package:daily_scoop_phase_2/routes.dart';
 import 'package:daily_scoop_phase_2/ui/screens/Category_selection.dart';
 import 'package:daily_scoop_phase_2/ui/screens/Home_screen.dart';
 import 'package:daily_scoop_phase_2/ui/screens/Publisher_selection.dart';
@@ -21,6 +22,8 @@ void main() {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "DailyScoop",
+        initialRoute: AppRoutes.stateSelection,
+        onGenerateRoute: AppRoutes.generateRoute,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
